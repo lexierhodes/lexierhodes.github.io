@@ -1,103 +1,296 @@
-// ── SPA routing ──
-function navigateTo(pageId) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lexie Rhodes — Atmospheric Chemistry</title>
+  <meta name="description" content="PhD student in atmospheric chemistry at the University of Montana, working on VOC and ozone chemistry using GEOS-Chem." />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
 
-  const page = document.getElementById(pageId);
-  if (page) page.classList.add('active');
+  <!-- hamburger (mobile only) -->
+  <button class="hamburger" aria-label="Open menu">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="overlay"></div>
 
-  const link = document.querySelector(`nav a[data-page="${pageId}"]`);
-  if (link) link.classList.add('active');
+  <!-- ── sidebar ── -->
+  <aside class="sidebar">
+    <div class="sidebar-name">Lexie Rhodes</div>
+    <div class="sidebar-title">PhD Student<br>Atmospheric Chemistry<br>University of Montana</div>
 
-  // update URL hash without scrolling
-  history.replaceState(null, '', '#' + pageId);
-  window.scrollTo(0, 0);
+    <nav>
+      <ul>
+        <li><a href="#home"          data-page="home">Home</a></li>
+        <li><a href="#research"      data-page="research">Research</a></li>
+        <li><a href="#presentations" data-page="presentations">Presentations</a></li>
+        <li><a href="#publications"  data-page="publications">Publications</a></li>
+        <li><a href="#contact"       data-page="contact">Contact</a></li>
+      </ul>
+    </nav>
 
-  closeSidebar();
-}
+    <div class="sidebar-footer">Missoula, MT</div>
+  </aside>
 
-// hash-based routing on load
-window.addEventListener('DOMContentLoaded', () => {
-  const hash = window.location.hash.replace('#', '') || 'home';
-  navigateTo(hash);
+  <!-- ── main ── -->
+  <main class="main">
 
-  document.querySelectorAll('nav a[data-page]').forEach(a => {
-    a.addEventListener('click', e => {
-      e.preventDefault();
-      navigateTo(a.dataset.page);
-    });
-  });
-});
+    <!-- ══════════════ HOME ══════════════ -->
+    <section id="home" class="page">
+      <div class="hero">
+        <canvas id="hero-canvas" class="hero-canvas"></canvas>
+        <div class="hero-eyebrow">Atmospheric Chemistry · Chemical Transport Modeling</div>
+        <h1 class="hero-name">Lexie Rhodes</h1>
+        <p class="hero-desc">
+          First-year PhD student in the Atmospheric Chemistry Lab at the University of Montana,
+          studying volatile organic compounds and ozone chemistry in complex terrain
+          using GEOS-Chem and field campaign data.
+        </p>
+      </div>
 
-// ── hamburger ──
-const ham = document.querySelector('.hamburger');
-const sidebar = document.querySelector('.sidebar');
-const overlay = document.querySelector('.overlay');
+      <div class="content">
+        <h2>About</h2>
+        <p>
+          I'm a first-year PhD student in atmospheric chemistry at the University of Montana,
+          advised by Dr. Lu Hu. My work focuses on evaluating chemical transport model performance
+          for VOCs and ozone in the western United States, with a particular interest in how
+          emissions inventories and photochemical mechanisms hold up under real-world complexity.
+        </p>
+        <p>
+          My current projects center on Salt Lake City, where the topography, the Great Salt Lake
+          breeze, and a mix of urban and biogenic emissions create a genuinely challenging environment
+          for models. I work primarily with GEOS-Chem Classic and the F0AM box model, drawing on
+          data from field campaigns including SLC-SOS 2024, SAMOZA 2022, and the FROZE 2025 Colorado
+          Front Range campaign.
+        </p>
+        <p>
+          Before starting my PhD, I studied Chemistry and Biology at William & Mary and worked as
+          a zookeeper — an experience that still shapes how I think about the relationship between
+          atmospheric chemistry and ecosystem health.
+        </p>
 
-function openSidebar() {
-  sidebar.classList.add('open');
-  overlay.classList.add('show');
-}
+        <hr class="divider" />
 
-function closeSidebar() {
-  sidebar.classList.remove('open');
-  overlay.classList.remove('show');
-}
+        <h3>Affiliations</h3>
+        <p>
+          LuHu Lab, Department of Chemistry &amp; Biochemistry, University of Montana<br>
+          Teaching Assistant, Introduction to General Chemistry & Introduction to Organic and Biochemistry
+        </p>
+      </div>
+    </section>
 
-ham?.addEventListener('click', openSidebar);
-overlay?.addEventListener('click', closeSidebar);
+    <!-- ══════════════ RESEARCH ══════════════ -->
+    <section id="research" class="page">
+      <div class="hero">
+        <canvas id="hero-canvas-r" class="hero-canvas"></canvas>
+        <div class="hero-eyebrow">Projects &amp; Methods</div>
+        <h1 class="hero-name">Research</h1>
+        <p class="hero-desc">
+          Chemical transport modeling, box modeling, and field campaign analysis
+          focused on western US VOC and ozone chemistry.
+        </p>
+      </div>
 
-// ── animated atmospheric line art ──
-function initHeroCanvas() {
-  const canvas = document.getElementById('hero-canvas');
-  if (!canvas) return;
+      <div class="content">
+        <h3>Active Projects</h3>
+        <div class="research-grid">
+          <div class="research-card">
+            <div class="research-card-tag">SLC-SOS 2024 · Primary</div>
+            <h4>GEOS-Chem Performance for VOCs &amp; Ozone in Salt Lake City</h4>
+            <p>
+              Evaluating GEOS-Chem Classic at 12 km resolution against multi-site
+              observations from the Salt Lake City Summer Ozone Study. Key themes
+              include NEI2017 emission inventory biases, biogenic VOC underestimation,
+              and sub-grid heterogeneity across three sites (Red Butte, Hawthorne, UT Tech)
+              that fall within a single model grid cell.
+            </p>
+          </div>
 
-  const ctx = canvas.getContext('2d');
-  let W, H, lines, animId;
+          <div class="research-card">
+            <div class="research-card-tag">SLC-SOS 2024 · Methods</div>
+            <h4>F0AM Box Modeling of Stationary VOC Data</h4>
+            <p>
+              Applying the Framework for 0-D Atmospheric Modeling (F0AM) to stationary
+              measurements at Red Butte, with wind-regime separation to account for
+              the Great Salt Lake breeze and downslope mountain topology's twice-daily flow reversals. 
+            </p>
+          </div>
+        </div>
 
-  function resize() {
-    W = canvas.width  = canvas.offsetWidth;
-    H = canvas.height = canvas.offsetHeight;
-    buildLines();
-  }
+        <hr class="divider" />
 
-  function buildLines() {
-    lines = [];
-    const count = 8;
-    for (let i = 0; i < count; i++) {
-      lines.push({
-        y: H * (i + 0.5) / count,
-        phase: Math.random() * Math.PI * 2,
-        freq: 0.004 + Math.random() * 0.003,
-        amp: 18 + Math.random() * 22,
-        speed: 0.004 + Math.random() * 0.003,
-        drift: 0,
+        <h3>Methods &amp; Tools</h3>
+        <p>
+          <strong>GEOS-Chem Classic</strong> — nested high-resolution simulations (12 km North America)
+          on the Hellgate HPC cluster; HEMCO emissions configuration; GEOS-FP meteorology.
+        </p>
+        <p>
+          <strong>F0AM</strong> — box modeling with MCM chemistry; multi-day continuous runs;
+          VOC/NOx isopleth sensitivity analysis; OH reactivity extraction.
+        </p>
+        <p>
+          <strong>Observational analysis</strong> — IDW multi-site compositing; SLC-SOS 2024, USOS, and UT-DAQ data sets.
+        </p>
+         <p>
+          <strong>Coding Proficiencies</strong> — Python, R, Javascript, MATLAB
+        </p>
+      </div>
+    </section>
+
+    <!-- ══════════════ PRESENTATIONS ══════════════ -->
+    <section id="presentations" class="page">
+      <div class="hero">
+        <canvas id="hero-canvas-p" class="hero-canvas"></canvas>
+        <div class="hero-eyebrow">Conferences &amp; Talks</div>
+        <h1 class="hero-name">Presentations</h1>
+        <p class="hero-desc">
+          Conference posters, seminars, and invited talks.
+        </p>
+      </div>
+
+      <div class="content">
+        <h3>2026</h3>
+
+        <div class="pres-item">
+          <div class="pres-item-meta">June 2026 · IGC12 · St. Louis, MO · Poster C.9</div>
+          <h4>Evaluating GEOS-Chem Classic Performance on Ozone &amp; VOCs in Salt Lake City at 12 km Resolution</h4>
+          <p>
+            12th International GEOS-Chem Conference. Poster presentation covering anthropogenic
+            VOC evaluation (toluene, benzene, propane), biogenic VOC evaluation (isoprene,
+            MVK/MACR, monoterpenes), and OVOC analysis (formaldehyde, methanol, ethanol,
+            acetone, acetaldehyde) using IDW-composited observations from SLC-SOS 2024.
+          </p>
+
+          <!-- Poster embed -->
+      <div class="pres-poster-embed">
+        <div class="pres-poster-header">
+          <span>IGC12 Poster · C.9</span>
+          <a href="assets/igc12_poster.pdf" download>Download PDF ↓</a>
+        </div>
+        <iframe
+          src="assets/igc12_poster.pdf"
+          title="IGC12 Poster C.9 — Lexie Rhodes">
+        </iframe>
+      </div>
+
+        <hr class="divider" />
+      </div>
+    </section>
+
+    <!-- ══════════════ PUBLICATIONS ══════════════ -->
+    <section id="publications" class="page">
+      <div class="hero">
+        <canvas id="hero-canvas-pub" class="hero-canvas"></canvas>
+        <div class="hero-eyebrow">Peer-Reviewed Work</div>
+        <h1 class="hero-name">Publications</h1>
+        <p class="hero-desc">
+          Coming soon!
+        </p>
+      </div>
+
+      <div class="content">
+        <h3>In Preparation</h3>
+        <div class="pubs-empty">
+          <div class="label">Coming soon!</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ══════════════ CONTACT ══════════════ -->
+    <section id="contact" class="page">
+      <div class="hero">
+        <canvas id="hero-canvas-c" class="hero-canvas"></canvas>
+        <div class="hero-eyebrow">Get in Touch</div>
+        <h1 class="hero-name">Contact</h1>
+        <p class="hero-desc">
+          Feel free to reach out about research, collaborations, or questions
+          about GEOS-Chem and VOC chemistry in the western US.
+        </p>
+      </div>
+
+      <div class="content">
+        <h3>Contact</h3>
+
+        <div class="contact-grid">
+          <a class="contact-item" href="mailto:lexie.rhodes@umt.edu">
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-value">lexie.rhodes@umt.edu</div>
+          </a>
+
+          <a class="contact-item" href="https://luhulab.com" target="_blank" rel="noopener">
+            <div class="contact-item-label">Lab</div>
+            <div class="contact-item-value">LuHu Lab, University of Montana</div>
+          </a>
+
+          <a class="contact-item" href="https://github.com/yourusername" target="_blank" rel="noopener">
+            <div class="contact-item-label">GitHub</div>
+            <div class="contact-item-value">github.com/yourusername</div>
+          </a>
+
+          <a class="contact-item" href="https://scholar.google.com" target="_blank" rel="noopener">
+            <div class="contact-item-label">Google Scholar</div>
+            <div class="contact-item-value">Scholar profile</div>
+          </a>
+        </div>
+
+        <hr class="divider" />
+
+        <h3>Address</h3>
+        <p>
+          Department of Chemistry &amp; Biochemistry<br>
+          University of Montana<br>
+          Missoula, MT 59812
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="js/main.js"></script>
+  <script>
+    // init hero canvases on the non-home pages too
+    // (reuse the same animation logic with different canvas IDs)
+    document.addEventListener('DOMContentLoaded', () => {
+      ['hero-canvas-r', 'hero-canvas-p', 'hero-canvas-pub', 'hero-canvas-c'].forEach(id => {
+        const canvas = document.getElementById(id);
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let lines = [];
+        function resize() {
+          canvas.width  = canvas.offsetWidth;
+          canvas.height = canvas.offsetHeight;
+          const W = canvas.width, H = canvas.height;
+          lines = Array.from({length: 8}, (_, i) => ({
+            y: H * (i + 0.5) / 8,
+            phase: Math.random() * Math.PI * 2,
+            freq: 0.004 + Math.random() * 0.003,
+            amp: 18 + Math.random() * 22,
+            speed: 0.004 + Math.random() * 0.003,
+            drift: 0,
+          }));
+        }
+        function draw() {
+          const W = canvas.width, H = canvas.height;
+          ctx.clearRect(0, 0, W, H);
+          ctx.strokeStyle = '#8BA4C4';
+          ctx.lineWidth = 1;
+          lines.forEach(l => {
+            l.drift += l.speed;
+            ctx.beginPath();
+            for (let x = 0; x <= W; x += 4) {
+              const y = l.y + Math.sin(x * l.freq + l.phase + l.drift) * l.amp;
+              x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+          });
+          requestAnimationFrame(draw);
+        }
+        new ResizeObserver(resize).observe(canvas);
+        resize();
+        draw();
       });
-    }
-  }
-
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    ctx.strokeStyle = '#8BA4C4';
-    ctx.lineWidth = 1;
-
-    lines.forEach(line => {
-      line.drift += line.speed;
-      ctx.beginPath();
-      for (let x = 0; x <= W; x += 4) {
-        const y = line.y + Math.sin(x * line.freq + line.phase + line.drift) * line.amp;
-        x === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
-      }
-      ctx.stroke();
     });
-
-    animId = requestAnimationFrame(draw);
-  }
-
-  const ro = new ResizeObserver(resize);
-  ro.observe(canvas);
-  resize();
-  draw();
-}
-
-document.addEventListener('DOMContentLoaded', initHeroCanvas);
+  </script>
+</body>
+</html>
