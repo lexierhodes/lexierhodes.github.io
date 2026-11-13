@@ -492,15 +492,14 @@
         <p>
           I'm a second-year PhD student in atmospheric chemistry at the University of Montana,
           advised by Dr. Lu Hu. My work focuses on evaluating chemical transport model (CTM) performance
-          for VOCs &amp; ozone in the western United States, with a particular interest in how
-          oxygenated VOC primary &amp; secondary sources hold up under real-world complexity.
+          for VOCs &amp; ozone in the western United States, with a particular interest in biogenic &amp;
+          oxygenated VOC representation in commonly used emission inventories, including MEGAN and NEI.
         </p>
         <p>
           My current projects center on Salt Lake City, where the topography, the Great Salt Lake
           breeze, and a mix of urban and biogenic emissions create a genuinely challenging environment
           for models. I work primarily with GEOS-Chem Classic &amp; the F0AM box model, drawing on
-          data from field campaigns including SLC-SOS 2024, SAMOZA 2022, &amp; the FROZE 2025 Colorado
-          Front Range campaign.
+          data from field campaigns including SLC-SOS 2024 &amp; USOS.
         </p>
         <p>
           Before starting my PhD, I studied Chemistry &amp; Biology at William &amp; Mary &amp; researched water quality &amp; ocean acidification at the Virginia Institute for Marine Science.
@@ -539,7 +538,10 @@
               observations from the Salt Lake City Summer Ozone Study 2024, the US Summer Ozone Study 2024 (NOAA), &amp; UT-DAQ GC-MS measurements. Key themes
               include NEI2016 emission inventory biases, biogenic VOC underestimation,
               &amp; sub-grid heterogeneity across three sites (Red Butte, Hawthorne, UT Tech)
-              that fall within a single model grid cell.
+              that fall within a single model grid cell. Recent advances include a customized, sectoral-explicit NEI2022 model configuration in GEOS-Chem 
+              Classic version 14.7.0. The model is further evaluated through sensitivity tests increasing biogenic emissions from MEGAN, tripling biomass burning 
+              emissions from GFAS following Jin et al., 2023, a combination of the two, and decreasing NO<sub>x</sub> yield per flash following Dang et al., 2026.
+              In the future, we plan to conduct a series of NEI sector perturbations to construct a Jacobian matrix for inverse analysis.
             </p>
           </div>
 
