@@ -97,105 +97,14 @@ const QR_COLOR = "#17212b";
 //          EASTERN BLUEBIRD ILLUSTRATION
 // =============================================
 
-// A simplified naturalist-style bluebird.
-// 100 x 100 viewBox for clean vector scaling.
-
-
-const BIRD = `
-
-  <!-- Bird tail -->
-  <path
-    d="M43 62
-       Q29 73 12 89
-       L23 93
-       Q38 82 54 70 Z"
-    fill="${BLUE}"
-  />
-
-  <!-- Bird body and head silhouette -->
-  <path
-    d="
-      M34 57
-      Q42 43 55 34
-      Q59 24 66 17
-      Q73 10 83 15
-      Q91 19 91 28
-      L100 32
-      L90 36
-      Q91 49 83 60
-      Q76 70 61 73
-      Q48 75 39 68
-      Q32 65 34 57
-      Z
-    "
-    fill="${BLUE}"
-  />
-
-  <!-- Legs -->
-  <path
-    d="
-      M59 69 L63 82
-      M72 68 L76 81
-    "
-    fill="none"
-    stroke="${BLUE}"
-    stroke-width="4"
-    stroke-linecap="round"
-  />
-
-  <!-- Branch -->
-  <path
-    d="M25 86
-       Q48 78 65 81
-       Q79 84 94 80"
-    fill="none"
-    stroke="${BLUE}"
-    stroke-width="4"
-    stroke-linecap="round"
-  />
-
-  <!-- Left foot -->
-  <path
-    d="M63 82 L58 85 M63 82 L68 85"
-    fill="none"
-    stroke="${BLUE}"
-    stroke-width="3"
-    stroke-linecap="round"
-  />
-
-  <!-- Right foot -->
-  <path
-    d="M76 81 L72 85 M76 81 L81 84"
-    fill="none"
-    stroke="${BLUE}"
-    stroke-width="3"
-    stroke-linecap="round"
-  />
-
-  <!-- Leaves -->
-  <path
-    d="M80 82
-       Q79 69 93 67
-       Q94 79 80 82 Z"
-    fill="${BLUE}"
-  />
-
-  <path
-    d="M86 82
-       Q92 71 99 76
-       Q96 85 86 82 Z"
-    fill="${BLUE}"
-  />
-
-  <path
-    d="M42 81
-       Q34 71 25 75
-       Q29 85 42 81 Z"
-    fill="${BLUE}"
-  />
-
-`;
-
+<image
+  href="bluebird-icon.png"
+  x="${quiet + lo}"
+  y="${quiet + lo}"
+  width="${clear}"
+  height="${clear}"
+  preserveAspectRatio="xMidYMid meet"
+/>
 
 // =============================================
 //                BUILD QR CODE
