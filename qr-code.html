@@ -1,0 +1,385 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Lexie Rhodes - QR Code</title>
+
+<style>
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    font-family: system-ui, sans-serif;
+    background: #fff;
+    color: #222;
+  }
+
+  #qr {
+    width: min(90vw, 520px);
+  }
+
+  #qr svg {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  .btns {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: .5rem;
+  }
+
+  button {
+    padding: .5rem 1rem;
+    border: 1px solid #888;
+    border-radius: 6px;
+    background: #f4f4f4;
+    cursor: pointer;
+    font-size: 1rem;
+  }
+
+  button:hover {
+    background: #e8e8e8;
+  }
+
+  #label {
+    font-size: .85rem;
+    color: #555;
+  }
+
+  @media print {
+    .btns, p { display: none; }
+  }
+</style>
+</head>
+
+<body>
+
+<div id="qr"></div>
+
+<div class="btns">
+  <button id="dl-svg">Download SVG (best for posters)</button>
+  <button id="dl-png">Download PNG</button>
+</div>
+
+<p id="label"></p>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+
+<script>
+
+// =============================================
+//             CUSTOMIZE YOUR QR CODE
+// =============================================
+
+const SITE_URL = "https://lexierhodes.github.io/";
+
+const BLUE       = "#3979c5";
+const LIGHT_BLUE = "#8eb6df";
+const DARK_BLUE  = "#24518c";
+const RUST       = "#c96d43";
+const CREAM      = "#f1e5cf";
+const CHARCOAL   = "#30343b";
+
+const LOGO_FRACTION = 0.14;
+
+const QR_COLOR = "#17212b";
+
+// =============================================
+//          EASTERN BLUEBIRD ILLUSTRATION
+// =============================================
+
+// A simplified naturalist-style bluebird.
+// 100 x 100 viewBox for clean vector scaling.
+
+const BIRD = `
+
+  <!-- Tail -->
+  <path
+    d="M65 65 Q48 74 27 91
+       Q44 87 63 76 L74 70 Z"
+    fill="${DARK_BLUE}"
+  />
+
+  <!-- Main body -->
+  <path
+    d="M35 47
+       Q41 34 58 34
+       Q77 34 82 51
+       Q88 68 72 78
+       Q56 85 40 73
+       Q29 64 35 47 Z"
+    fill="${BLUE}"
+  />
+
+  <!-- Rust-colored breast -->
+  <path
+    d="M53 43
+       Q70 40 78 53
+       Q84 67 72 76
+       Q63 81 48 74
+       Q56 63 53 43 Z"
+    fill="${RUST}"
+  />
+
+  <!-- Wing -->
+  <path
+    d="M38 48
+       Q48 40 63 46
+       Q74 51 70 62
+       Q63 70 45 73
+       Q35 66 34 58 Z"
+    fill="${DARK_BLUE}"
+  />
+
+  <!-- Wing feather accents -->
+  <path
+    d="M40 55 Q52 54 66 62
+       M40 61 Q51 60 63 67
+       M44 67 Q53 65 58 70"
+    fill="none"
+    stroke="${LIGHT_BLUE}"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+
+  <!-- Head -->
+  <path
+    d="M39 45
+       Q32 35 36 23
+       Q40 10 54 10
+       Q69 10 73 24
+       Q76 36 64 44
+       Q52 49 39 45 Z"
+    fill="${BLUE}"
+  />
+
+  <!-- Face and throat -->
+  <path
+    d="M38 29
+       Q45 25 54 29
+       Q63 32 68 39
+       Q61 47 51 46
+       Q41 43 38 35 Z"
+    fill="${RUST}"
+  />
+
+  <!-- Blue cheek detail -->
+  <path
+    d="M40 29 Q45 26 50 29"
+    fill="none"
+    stroke="${LIGHT_BLUE}"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+
+  <!-- Beak -->
+  <path
+    d="M38 28 L23 32 L38 35 Z"
+    fill="${CHARCOAL}"
+  />
+
+  <!-- Eye -->
+  <circle cx="43" cy="24" r="3.2" fill="#fff"/>
+  <circle cx="44" cy="24" r="2" fill="${CHARCOAL}"/>
+  <circle cx="44.7" cy="23.2" r=".7" fill="#fff"/>
+
+  <!-- Legs -->
+  <path
+    d="M53 75 L51 87
+       M68 74 L70 87"
+    fill="none"
+    stroke="#665343"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+
+  <!-- Small feet -->
+  <path
+    d="M51 87 L45 90 M51 87 L57 90
+       M70 87 L64 90 M70 87 L77 90"
+    fill="none"
+    stroke="#665343"
+    stroke-width="2"
+    stroke-linecap="round"
+  />
+
+`;
+
+// =============================================
+//                BUILD QR CODE
+// =============================================
+
+function buildSVG() {
+
+  // H = highest error correction
+  const qr = qrcode(0, "H");
+
+  qr.addData(SITE_URL);
+  qr.make();
+
+  const n = qr.getModuleCount();
+
+  // Required four-module quiet zone
+  const quiet = 4;
+
+  const size = n + quiet * 2;
+
+  // Reserve a small central area for the bird.
+  const clear = Math.ceil(n * LOGO_FRACTION) + 2;
+
+  const lo = Math.floor((n - clear) / 2);
+  const hi = lo + clear;
+
+  let d = "";
+
+  // Draw QR modules, excluding the center badge.
+  for (let r = 0; r < n; r++) {
+    for (let c = 0; c < n; c++) {
+
+      if (!qr.isDark(r, c)) continue;
+
+      // Leave the center clear for the bird.
+      if (
+        r >= lo && r < hi &&
+        c >= lo && c < hi
+      ) continue;
+
+      d += `M${c + quiet} ${r + quiet}h1v1h-1z`;
+    }
+  }
+
+  // Center of the badge
+  const center = quiet + lo + clear / 2;
+
+  return `
+  <svg xmlns="http://www.w3.org/2000/svg"
+       viewBox="0 0 ${size} ${size}">
+
+    <!-- White QR background -->
+    <rect
+      width="${size}"
+      height="${size}"
+      fill="#ffffff"
+    />
+
+    <!-- QR modules -->
+    <path
+      d="${d}"
+      fill="${QR_COLOR}"
+      shape-rendering="crispEdges"
+    />
+
+    <!-- White rounded badge -->
+    <rect
+      x="${quiet + lo}"
+      y="${quiet + lo}"
+      width="${clear}"
+      height="${clear}"
+      rx="${clear * 0.18}"
+      fill="#ffffff"
+      stroke="#dce5ef"
+      stroke-width="${clear * 0.035}"
+    />
+
+    <!-- Bluebird -->
+    <g
+      transform="
+        translate(${quiet + lo} ${quiet + lo})
+        scale(${clear / 100})
+      ">
+      ${BIRD}
+    </g>
+
+  </svg>
+  `;
+}
+
+// =============================================
+//               DISPLAY QR CODE
+// =============================================
+
+const svg = buildSVG();
+
+document.getElementById("qr").innerHTML = svg;
+
+document.getElementById("label").textContent = SITE_URL;
+
+// =============================================
+//                  DOWNLOADS
+// =============================================
+
+function save(blob, name) {
+
+  const a = document.createElement("a");
+
+  a.href = URL.createObjectURL(blob);
+  a.download = name;
+
+  a.click();
+
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+// SVG: best for poster printing
+document.getElementById("dl-svg").onclick = () => {
+
+  save(
+    new Blob([svg], { type: "image/svg+xml" }),
+    "lexie-rhodes-bluebird-qr.svg"
+  );
+
+};
+
+// PNG: high-resolution raster export
+document.getElementById("dl-png").onclick = () => {
+
+  const img = new Image();
+
+  img.onload = () => {
+
+    const px = 2400;
+
+    const canvas = document.createElement("canvas");
+
+    canvas.width = px;
+    canvas.height = px;
+
+    const ctx = canvas.getContext("2d");
+
+    ctx.imageSmoothingEnabled = false;
+
+    ctx.drawImage(img, 0, 0, px, px);
+
+    canvas.toBlob(blob => {
+
+      if (blob) {
+        save(blob, "lexie-rhodes-bluebird-qr.png");
+      }
+
+    }, "image/png");
+
+  };
+
+  img.onerror = () => {
+    alert("Could not generate PNG. Try downloading the SVG instead.");
+  };
+
+  img.src =
+    "data:image/svg+xml;charset=utf-8," +
+    encodeURIComponent(svg);
+
+};
+
+</script>
+
+</body>
+</html>
