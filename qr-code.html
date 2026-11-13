@@ -100,119 +100,102 @@ const QR_COLOR = "#17212b";
 // A simplified naturalist-style bluebird.
 // 100 x 100 viewBox for clean vector scaling.
 
+
 const BIRD = `
 
-  <!-- Tail -->
+  <!-- Bird tail -->
   <path
-    d="M65 65 Q48 74 27 91
-       Q44 87 63 76 L74 70 Z"
-    fill="${DARK_BLUE}"
-  />
-
-  <!-- Main body -->
-  <path
-    d="M35 47
-       Q41 34 58 34
-       Q77 34 82 51
-       Q88 68 72 78
-       Q56 85 40 73
-       Q29 64 35 47 Z"
+    d="M43 62
+       Q29 73 12 89
+       L23 93
+       Q38 82 54 70 Z"
     fill="${BLUE}"
   />
 
-  <!-- Rust-colored breast -->
+  <!-- Bird body and head silhouette -->
   <path
-    d="M53 43
-       Q70 40 78 53
-       Q84 67 72 76
-       Q63 81 48 74
-       Q56 63 53 43 Z"
-    fill="${RUST}"
-  />
-
-  <!-- Wing -->
-  <path
-    d="M38 48
-       Q48 40 63 46
-       Q74 51 70 62
-       Q63 70 45 73
-       Q35 66 34 58 Z"
-    fill="${DARK_BLUE}"
-  />
-
-  <!-- Wing feather accents -->
-  <path
-    d="M40 55 Q52 54 66 62
-       M40 61 Q51 60 63 67
-       M44 67 Q53 65 58 70"
-    fill="none"
-    stroke="${LIGHT_BLUE}"
-    stroke-width="2"
-    stroke-linecap="round"
-  />
-
-  <!-- Head -->
-  <path
-    d="M39 45
-       Q32 35 36 23
-       Q40 10 54 10
-       Q69 10 73 24
-       Q76 36 64 44
-       Q52 49 39 45 Z"
+    d="
+      M34 57
+      Q42 43 55 34
+      Q59 24 66 17
+      Q73 10 83 15
+      Q91 19 91 28
+      L100 32
+      L90 36
+      Q91 49 83 60
+      Q76 70 61 73
+      Q48 75 39 68
+      Q32 65 34 57
+      Z
+    "
     fill="${BLUE}"
   />
-
-  <!-- Face and throat -->
-  <path
-    d="M38 29
-       Q45 25 54 29
-       Q63 32 68 39
-       Q61 47 51 46
-       Q41 43 38 35 Z"
-    fill="${RUST}"
-  />
-
-  <!-- Blue cheek detail -->
-  <path
-    d="M40 29 Q45 26 50 29"
-    fill="none"
-    stroke="${LIGHT_BLUE}"
-    stroke-width="2"
-    stroke-linecap="round"
-  />
-
-  <!-- Beak -->
-  <path
-    d="M38 28 L23 32 L38 35 Z"
-    fill="${CHARCOAL}"
-  />
-
-  <!-- Eye -->
-  <circle cx="43" cy="24" r="3.2" fill="#fff"/>
-  <circle cx="44" cy="24" r="2" fill="${CHARCOAL}"/>
-  <circle cx="44.7" cy="23.2" r=".7" fill="#fff"/>
 
   <!-- Legs -->
   <path
-    d="M53 75 L51 87
-       M68 74 L70 87"
+    d="
+      M59 69 L63 82
+      M72 68 L76 81
+    "
     fill="none"
-    stroke="#665343"
-    stroke-width="2"
+    stroke="${BLUE}"
+    stroke-width="4"
     stroke-linecap="round"
   />
 
-  <!-- Small feet -->
+  <!-- Branch -->
   <path
-    d="M51 87 L45 90 M51 87 L57 90
-       M70 87 L64 90 M70 87 L77 90"
+    d="M25 86
+       Q48 78 65 81
+       Q79 84 94 80"
     fill="none"
-    stroke="#665343"
-    stroke-width="2"
+    stroke="${BLUE}"
+    stroke-width="4"
     stroke-linecap="round"
+  />
+
+  <!-- Left foot -->
+  <path
+    d="M63 82 L58 85 M63 82 L68 85"
+    fill="none"
+    stroke="${BLUE}"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <!-- Right foot -->
+  <path
+    d="M76 81 L72 85 M76 81 L81 84"
+    fill="none"
+    stroke="${BLUE}"
+    stroke-width="3"
+    stroke-linecap="round"
+  />
+
+  <!-- Leaves -->
+  <path
+    d="M80 82
+       Q79 69 93 67
+       Q94 79 80 82 Z"
+    fill="${BLUE}"
+  />
+
+  <path
+    d="M86 82
+       Q92 71 99 76
+       Q96 85 86 82 Z"
+    fill="${BLUE}"
+  />
+
+  <path
+    d="M42 81
+       Q34 71 25 75
+       Q29 85 42 81 Z"
+    fill="${BLUE}"
   />
 
 `;
+
 
 // =============================================
 //                BUILD QR CODE
@@ -279,15 +262,11 @@ function buildSVG() {
     />
 
     <!-- White rounded badge -->
-    <rect
-      x="${quiet + lo}"
-      y="${quiet + lo}"
-      width="${clear}"
-      height="${clear}"
-      rx="${clear * 0.18}"
+    <circle
+      cx="${center}"
+      cy="${center}"
+      r="${clear * 0.49}"
       fill="#ffffff"
-      stroke="#dce5ef"
-      stroke-width="${clear * 0.035}"
     />
 
     <!-- Bluebird -->
